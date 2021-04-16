@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 import sys
 
 app = Flask(__name__) 
@@ -9,6 +10,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://panda:mengxuxu520@localhos
 # 8. connect with psql todoapp to insert records:todoapp=# INSERT INTO todos (description) VALUES ('To do 1');
 # 1.define db object which link sqlalchemy to our app
 db = SQLAlchemy(app)
+
+migrate = Migrate(app, db)
 
 # 2. create class
 class Todo(db.Model):
