@@ -24,7 +24,6 @@ class Todo(db.Model):
   def __repr__(self):
     return f'<Todo {self.id} {self.description}>'
 # 5. sync model with database
-db.create_all()
 
 # Developing the controller
 @app.route('/todos/create', methods=['POST'])
