@@ -10,16 +10,14 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://panda:mengxuxu520@localhos
 # 8. connect with psql todoapp to insert records:todoapp=# INSERT INTO todos (description) VALUES ('To do 1');
 # 1.define db object which link sqlalchemy to our app
 db = SQLAlchemy(app)
-
 migrate = Migrate(app, db)
-
 # 2. create class
 class Todo(db.Model):
   # tablename cannot be capitalized
   __tablename__ = 'todos'
   id = db.Column(db.Integer, primary_key=True)
   description = db.Column(db.String(), nullable=False)
-
+  completed = db.Column(db.Boolean, nullable=False, default=False)
   # 3.creating debugging statements
   def __repr__(self):
     return f'<Todo {self.id} {self.description}>'
