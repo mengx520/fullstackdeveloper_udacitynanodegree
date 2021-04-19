@@ -68,7 +68,7 @@ def index():
     # return a template html file
     # 4. replace dummy data with database
     return render_template(
-        'index.html', data=Todo.query.all()
+        'index.html', data=Todo.query.order_by('id').all()
         )
 
 if __name__ == '__main__':
