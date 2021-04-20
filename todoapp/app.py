@@ -11,6 +11,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://panda:mengxuxu520@localhos
 # 1.define db object which link sqlalchemy to our app
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
 # 2. create class
 class Todo(db.Model):
   # tablename cannot be capitalized
@@ -18,9 +19,25 @@ class Todo(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   description = db.Column(db.String(), nullable=False)
   completed = db.Column(db.Boolean, nullable=False, default=False)
+  # adding foreign key to the child model
+  list_id = db.Column(db.Integer, db.ForeignKey('todolists.id'), nullable=False)
+  
+
   # 3.creating debugging statements
   def __repr__(self):
     return f'<Todo {self.id} {self.description}>'
+
+# creat TodoList model as parent model and adding foreign key to the child Todo model
+class TodoList(db.Modle):
+    __tablename__='todolists'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), nullable=False)
+    todos = db.relationship('Todo', backref='list', lazy=True)
+
+class 
+
+
+
 # 5. sync model with database
 
 # Developing the controller
