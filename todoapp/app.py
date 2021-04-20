@@ -31,7 +31,7 @@ def create_todo():
     try:
         # get a json body that were sent as dictionary
         description = request.get_json()['description']
-        todo = Todo(description=description)
+        todo = Todo(description=description, completed=False)
         db.session.add(todo)
         db.session.commit()
         body['description'] = todo.description
@@ -41,15 +41,20 @@ def create_todo():
         print(sys.exc_info())
     finally:
         db.session.close()
-    if not error:
+    #if not error:
         # return to a json object
-        return jsonify(body)
+        # return jsonify(body)
+    if error:
+      abort(400)
+    else:
+      return jsonify(body)
 
 # set up a route that listen to set-completed
 @app.route('/todos/<todo_id>/set-completed', methods=['POST'])
 def set_completed_todo(todo_id):
   try:
     completed = request.get_json()['completed']
+    print('completed', completed)
     todo = Todo.query.get(todo_id)
     todo.completed = completed
     db.session.commit()
@@ -59,6 +64,15 @@ def set_completed_todo(todo_id):
     db.session.close()
   return redirect(url_for('index'))
 
+# take user's input and notify models to delete the to-do item
+@app.route('/todos/<todo_id>/', methods=['DELETE'])
+def delete_todo(todo_id):
+  try:
+    Todo.query.filter_by(id=todo_id).delete()
+    db.session.commit()
+  except:
+    db.session.rollback()
+  return redirect(url_for('index'))
 
 # set up a route that listen to home page
 @app.route('/')
@@ -68,7 +82,7 @@ def index():
     # return a template html file
     # 4. replace dummy data with database
     return render_template(
-        'index.html', data=Todo.query.order_by('id').all()
+        'index.html', todos=Todo.query.order_by('id').all()
         )
 
 if __name__ == '__main__':
