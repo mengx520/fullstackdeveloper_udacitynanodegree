@@ -34,7 +34,7 @@ class TodoList(db.Modle):
     name = db.Column(db.String(), nullable=False)
     todos = db.relationship('Todo', backref='list', lazy=True)
 
-class 
+
 
 
 
