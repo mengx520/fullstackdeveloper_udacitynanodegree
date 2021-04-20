@@ -28,7 +28,7 @@ class Todo(db.Model):
     return f'<Todo {self.id} {self.description}>'
 
 # creat TodoList model as parent model and adding foreign key to the child Todo model
-class TodoList(db.Modle):
+class TodoList(db.Model):
     __tablename__='todolists'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
