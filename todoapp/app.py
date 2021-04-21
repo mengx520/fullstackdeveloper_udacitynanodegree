@@ -19,7 +19,7 @@ class Todo(db.Model):
   description = db.Column(db.String(), nullable=False)
   completed = db.Column(db.Boolean, nullable=False, default=False)
   # adding foreign key to the child model
-  list_id = db.Column(db.Integer, db.ForeignKey('todolists.id'), nullable=True)
+  list_id = db.Column(db.Integer, db.ForeignKey('todolists.id'), nullable=False)
 
   # 3.creating debugging statements
   def __repr__(self):
