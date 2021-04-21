@@ -79,9 +79,9 @@ def set_completed_todo(todo_id):
     db.session.close()
   return redirect(url_for('index'))
 
-@app.route('/')
+@app.route('/lists/<list_id>')
 def index():
-    return render_template('index.html', todos=Todo.query.order_by('id').all())
+    return render_template('index.html', todos=Todo.query.filter_by('list_id'=list_id).order_by('id').all())
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', debug=True)
