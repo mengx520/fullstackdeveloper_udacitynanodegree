@@ -29,7 +29,7 @@ class Todo(db.Model):
   def __repr__(self):
         return f'<Todo {self.id} {self.description}>'
 
-@app.route('/todos/<todo_id>/', methods=['DELETE'])
+@app.route('/todos/<todo_id>', methods=['DELETE'])
 def delete_todo(todo_id):
   try:
     Todo.query.filter_by(id=todo_id).delete()
@@ -49,7 +49,10 @@ def create_todo():
     body = {}
     try:
         description = request.get_json()['description']
+        list_id = request.get_json()['list_id']
         todo = Todo(description=description, completed=False)
+        active_list = TodoList.query.get(list_id)
+        todo.list = active_list
         db.session.add(todo)
         db.session.commit()
         body['id'] = todo.id
