@@ -14,7 +14,7 @@ def create_app(test_config=None):
         return response
     
     #@cross_origin
-    @app.route('/')
+    @app.route('/hello')
     def hello_world():
         return jsonify({'message':'HELLO, WORLD!'})
     return app
